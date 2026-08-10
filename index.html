@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Clima & Look" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Clima & Look</title>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <span class="eyebrow">CLIMA & LOOK</span>
+        <h1 id="greeting">Olá!</h1>
+      </div>
+      <button id="refreshBtn" class="icon-button" aria-label="Atualizar clima" title="Atualizar clima">↻</button>
+    </header>
+
+    <section class="search-card card">
+      <form id="searchForm" class="search-row">
+        <label class="sr-only" for="cityInput">Pesquisar cidade</label>
+        <input id="cityInput" type="search" autocomplete="off" placeholder="Digite uma cidade..." />
+        <button type="submit" class="primary-button">Buscar</button>
+      </form>
+      <button id="locationBtn" class="location-button">⌖ Usar minha localização</button>
+      <div id="searchResults" class="search-results" hidden></div>
+    </section>
+
+    <section id="status" class="status" aria-live="polite"></section>
+
+    <section class="hero card">
+      <div class="location-line">
+        <span id="locationName">Localizando...</span>
+        <span id="localTime">--:--</span>
+      </div>
+      <div class="current-weather">
+        <div>
+          <div id="weatherIcon" class="weather-icon">☀️</div>
+          <div id="weatherDescription" class="weather-description">Carregando clima...</div>
+        </div>
+        <div class="temperature-wrap">
+          <span id="temperature" class="temperature">--</span><span class="degree">°</span>
+        </div>
+      </div>
+      <div class="metrics">
+        <div><span>🌡️ Sensação</span><strong id="feelsLike">--°</strong></div>
+        <div><span>💧 Umidade</span><strong id="humidity">--%</strong></div>
+        <div><span>💨 Vento</span><strong id="wind">-- km/h</strong></div>
+        <div><span>☔ Chuva</span><strong id="rain">--%</strong></div>
+      </div>
+    </section>
+
+    <section class="recommendation card">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">RECOMENDAÇÃO</span>
+          <h2>O que vestir hoje</h2>
+        </div>
+        <span id="comfortBadge" class="badge">Analisando</span>
+      </div>
+      <div id="outfit" class="outfit">
+        <div class="outfit-main">
+          <div id="outfitIcon" class="outfit-icon">👕</div>
+          <div>
+            <h3 id="outfitTitle">Montando seu look...</h3>
+            <p id="outfitText">Vamos analisar temperatura, chuva e vento.</p>
+          </div>
+        </div>
+        <ul id="outfitItems" class="outfit-items"></ul>
+      </div>
+    </section>
+
+    <section class="forecast-section">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">PRÓXIMOS DIAS</span>
+          <h2>Previsão</h2>
+        </div>
+        <button id="unitBtn" class="unit-button" type="button">°C</button>
+      </div>
+      <div id="forecast" class="forecast-grid"></div>
+    </section>
+
+    <section class="details card">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">DETALHES</span>
+          <h2>Hoje</h2>
+        </div>
+      </div>
+      <div class="detail-grid">
+        <div><span>🌅 Nascer do sol</span><strong id="sunrise">--:--</strong></div>
+        <div><span>🌇 Pôr do sol</span><strong id="sunset">--:--</strong></div>
+        <div><span>🌧️ Precipitação</span><strong id="precipitation">-- mm</strong></div>
+        <div><span>☀️ UV máximo</span><strong id="uv">--</strong></div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Dados meteorológicos por Open-Meteo. Localização usada apenas para consultar a previsão.</p>
+      <p>Desenvolvido por Romeu Reif</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

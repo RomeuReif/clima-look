@@ -1,0 +1,10 @@
+{
+  "name": "Clima & Look",
+  "short_name": "Clima & Look",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#0f172a",
+  "lang": "pt-BR",
+  "description": "Previsão do tempo e recomendação de roupas baseada no clima."
+}
