@@ -1,6 +1,7 @@
 const state = {
   lat: null, lon: null, city: "Sua localização", country: "",
-  weather: null, unit: "C"
+  weather: null, unit: "C",
+  userName: localStorage.getItem("climaLookUserName") || ""
 };
 
 const $ = (id) => document.getElementById(id);
@@ -35,6 +36,60 @@ const weatherCodes = {
   96: ["Trovoada com granizo", "⛈️"],
   99: ["Trovoada forte com granizo", "⛈️"]
 };
+
+function updateGreeting() {
+  const hour = new Date().getHours();
+  const base = greetingByHour(hour);
+  const name = state.userName.trim();
+  $("greeting").textContent = name ? `${base}, ${name} 👋` : base;
+}
+
+function updateNameCompliment() {
+  const el = $("nameCompliment");
+  if (!el) return;
+  const name = state.userName.trim().toLowerCase();
+
+  if (name !== "caroline") {
+    el.hidden = true;
+    return;
+  }
+
+  const compliments = [
+    "Caroline, você está linda hoje 💙",
+    "Caroline, que bom ter você por aqui ✨",
+    "Caroline, seu dia merece um look incrível 💙",
+    "Caroline, até o clima ficou mais bonito com você por aqui ☀️",
+    "Caroline, espero que seu dia seja tão incrível quanto você 😊"
+  ];
+
+  const dayIndex = Math.floor(Date.now() / 86400000) % compliments.length;
+  el.textContent = compliments[dayIndex];
+  el.hidden = false;
+}
+
+function setupName() {
+  const current = state.userName.trim();
+  const value = window.prompt(
+    current
+      ? `Como devemos chamar você?\\n\\nDeixe vazio para manter "${current}".`
+      : "Como devemos chamar você?",
+    current
+  );
+
+  if (value === null) return;
+
+  const name = value.trim();
+  if (name) {
+    state.userName = name;
+    localStorage.setItem("climaLookUserName", name);
+  } else if (!current) {
+    state.userName = "";
+    localStorage.removeItem("climaLookUserName");
+  }
+
+  updateGreeting();
+  updateNameCompliment();
+}
 
 function weatherInfo(code) {
   return weatherCodes[code] || ["Condição desconhecida", "🌡️"];
@@ -151,7 +206,8 @@ function render(data) {
   const c = data.current, d = data.daily;
   const [desc, icon] = weatherInfo(c.weather_code);
 
-  $("greeting").textContent = greetingByHour(new Date().getHours());
+  updateGreeting();
+  updateNameCompliment();
   $("weatherIcon").textContent = icon;
   $("weatherDescription").textContent = desc;
   $("temperature").textContent = Math.round(state.unit === "C" ? c.temperature_2m : cToF(c.temperature_2m));
@@ -250,9 +306,14 @@ $("searchForm").addEventListener("submit", async (e) => {
   }
 });
 
+$("nameBtn").addEventListener("click", setupName);
+
 $("refreshBtn").addEventListener("click", () => {
   if (state.lat !== null) loadLocation(state.lat, state.lon, state.city);
-  else requestInitialLocation();
+  else updateGreeting();
+updateNameCompliment();
+if (!state.userName) setTimeout(setupName, 350);
+requestInitialLocation();
 });
 
 $("unitBtn").addEventListener("click", () => {
@@ -276,4 +337,7 @@ function requestInitialLocation() {
   );
 }
 
+updateGreeting();
+updateNameCompliment();
+if (!state.userName) setTimeout(setupName, 350);
 requestInitialLocation();
